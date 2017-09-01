@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -77,7 +78,7 @@ public class AnimalActivity extends AppCompatActivity {
                 animals = mGridData.get(position);
                 openWebView(WEB_URL+animals.getWebId()+"&Tid="+animals.getTid(),animals.getName());
                 overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);
-                Toast.makeText(AnimalActivity.this, animals.getTid()+" . " + animals.getWebId(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AnimalActivity.this, animals.getTid()+" . " + animals.getWebId(), Toast.LENGTH_SHORT).show();
             }
         });
         new AsyncHttpTask().execute(ANIMAL_URL + result[0] + "&sex=" + result[1]);
