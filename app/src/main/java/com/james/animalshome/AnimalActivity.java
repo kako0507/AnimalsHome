@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -31,7 +32,6 @@ public class AnimalActivity extends AppCompatActivity {
     private String TAG = AnimalActivity.class.getSimpleName();
     private String result[] = new String[5];
     private ArrayList<Animals> mGridData;
-    private String imgPath = "http://163.29.36.110/uploads/images/medium/";
     private String ANIMAL_URL = "http://163.29.36.110/amlapp/Query/AcceptList.ashx?type=";
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -59,6 +59,7 @@ public class AnimalActivity extends AppCompatActivity {
         result = getActivityValue();
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setVisibility(View.GONE);
         mGridView = (GridView) findViewById(R.id.gridview);
         mGridData = new ArrayList<>();
         mGridAdapter = new ImageAdapterGridView(this, R.layout.grid_item, mGridData);
@@ -71,13 +72,6 @@ public class AnimalActivity extends AppCompatActivity {
         });
         new AsyncHttpTask().execute(ANIMAL_URL + result[0] + "&sex=" + result[1]);
         mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onBackPressed() {
-        //goToHome();
-        onBackPressed();
-        return;
     }
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
@@ -93,7 +87,7 @@ public class AnimalActivity extends AppCompatActivity {
             if (result == 1) {
                 mGridAdapter.setGridData(mGridData);
             } else {
-                Toast.makeText(AnimalActivity.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AnimalActivity.this, "Failed to fetch data!", Toast.LENGTH_SHORT).show();
             }
             mProgressBar.setVisibility(View.GONE);
         }
@@ -119,10 +113,6 @@ public class AnimalActivity extends AppCompatActivity {
                 String acceptnum = jsonObject.getString("acceptnum");
                 String webid = jsonObject.getString("id");
                 mGridData.add(new Animals(name, pic, tid, acceptnum, webid));
-                //addingArrList(item,i);
-
-                //Log.e("TAG", "name:" + name + ", tid:" + tid + ", pic:" + pic);
-                //Log.e("TAG", "acceptnum:" + acceptnum + ", id:" + id );
             }
         } catch (IOException e) {
             e.printStackTrace();

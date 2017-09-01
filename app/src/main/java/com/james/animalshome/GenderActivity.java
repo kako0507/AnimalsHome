@@ -50,13 +50,14 @@ public class GenderActivity extends AppCompatActivity {
 
     public void startActivity(String type) {
         Intent i = new Intent(GenderActivity.this, AnimalActivity.class);
-        Log.e(TAG, "gender " + type);
+
         i.putExtra("type", result);
         if (type.equals("man")) {
             i.putExtra("sex", "1");
         } else {
             i.putExtra("sex", "2");
         }
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         startActivity(i);
     }
 

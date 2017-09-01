@@ -77,8 +77,12 @@ public class ImageAdapterGridView extends ArrayAdapter<Animals> {
             holder = (ViewHolder) row.getTag();
         }
         Animals animals = mGridData.get(position);
-        Log.e(TAG,"animals :" + animals.getName());
-        holder.textView.setText(animals.getName());
+        if(animals.getName().equals("")){
+            holder.textView.setText("無取名");
+        }else{
+            holder.textView.setText(animals.getName());
+        }
+
         Picasso.with(mContext)
                 .load("http://163.29.36.110/uploads/images/medium/" + animals.getPic())
                 .into(holder.imageView);
