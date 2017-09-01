@@ -32,7 +32,9 @@ public class AnimalActivity extends AppCompatActivity {
     private String TAG = AnimalActivity.class.getSimpleName();
     private String result[] = new String[5];
     private ArrayList<Animals> mGridData;
+    private Animals animals;
     private String ANIMAL_URL = "http://163.29.36.110/amlapp/Query/AcceptList.ashx?type=";
+    private String WEB_URL = "http://163.29.36.110/html/Aml_animalCon.aspx?Aid=";
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -50,6 +52,11 @@ public class AnimalActivity extends AppCompatActivity {
         }
 
     };
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right_1, R.anim.slide_in_right_2);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +74,21 @@ public class AnimalActivity extends AppCompatActivity {
         mGridView.setOnItemClickListener(new GridView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                animals = mGridData.get(position);
+                openWebView(WEB_URL+animals.getWebId()+"&Tid="+animals.getTid(),animals.getName());
+                overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);
+                Toast.makeText(AnimalActivity.this, animals.getTid()+" . " + animals.getWebId(), Toast.LENGTH_SHORT).show();
             }
         });
         new AsyncHttpTask().execute(ANIMAL_URL + result[0] + "&sex=" + result[1]);
         mProgressBar.setVisibility(View.VISIBLE);
+    }
+    private void openWebView(String url, String name){
+        Intent intentWV = new Intent(AnimalActivity.this, WebViewActivity.class);
+        intentWV.putExtra("URL", url);
+        intentWV.putExtra("Title", name);
+        startActivity(intentWV);
+        overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);
     }
 
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {

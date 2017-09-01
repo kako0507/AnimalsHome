@@ -55,6 +55,6 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("Type", "3");
         }
         startActivity(i);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);
     }
 }

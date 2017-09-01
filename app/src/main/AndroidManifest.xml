@@ -27,7 +27,9 @@
         </activity>
         <activity android:name=".GenderActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
-
+        </activity>
+        <activity android:name=".WebViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">.
         </activity>
     </application>
 

@@ -49,16 +49,21 @@ public class GenderActivity extends AppCompatActivity {
     }
 
     public void startActivity(String type) {
-        Intent i = new Intent(GenderActivity.this, AnimalActivity.class);
 
+        Intent i = new Intent(GenderActivity.this, AnimalActivity.class);
         i.putExtra("type", result);
         if (type.equals("man")) {
             i.putExtra("sex", "1");
         } else {
             i.putExtra("sex", "2");
         }
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right_1, R.anim.slide_in_right_2);
     }
 
     public String getActivityValue() {

@@ -30,9 +30,7 @@ public class ImageAdapterGridView extends ArrayAdapter<Animals> {
     private Context mContext;
     private String TAG = ImageAdapterGridView.class.getSimpleName();
     ArrayList<Animals> mGridData = new ArrayList<Animals>();
-    //private  String[]picUrls = {};
     Bitmap bitmap;
-    View gridView;
     private int layoutResourceId;
 
     public ImageAdapterGridView(Context mContext, int layoutResourceId, ArrayList<Animals> mGridData) {
@@ -78,7 +76,7 @@ public class ImageAdapterGridView extends ArrayAdapter<Animals> {
         }
         Animals animals = mGridData.get(position);
         if(animals.getName().equals("")){
-            holder.textView.setText("無取名");
+            holder.textView.setText("無名");
         }else{
             holder.textView.setText(animals.getName());
         }
