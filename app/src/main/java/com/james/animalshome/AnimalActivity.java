@@ -92,6 +92,7 @@ public class AnimalActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);
     }
 
+
     public class AsyncHttpTask extends AsyncTask<String, Void, Integer> {
         @Override
         protected Integer doInBackground(String... urls) {
