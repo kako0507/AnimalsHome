@@ -53,9 +53,11 @@ public class AnimalActivity extends AppCompatActivity {
         }
 
     };
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        //goToHome();
         overridePendingTransition(R.anim.slide_in_right_1, R.anim.slide_in_right_2);
     }
 
@@ -76,15 +78,16 @@ public class AnimalActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 animals = mGridData.get(position);
-                openWebView(WEB_URL+animals.getWebId()+"&Tid="+animals.getTid(),animals.getName());
+                openWebView(WEB_URL + animals.getWebId() + "&Tid=" + animals.getTid(), animals.getName());
                 overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);
                 //Toast.makeText(AnimalActivity.this, animals.getTid()+" . " + animals.getWebId(), Toast.LENGTH_SHORT).show();
             }
         });
-        new AsyncHttpTask().execute(ANIMAL_URL + result[0] + "&sex=" + result[1]);
+        new AsyncHttpTask().execute(ANIMAL_URL + result[0] + "&sex=" + result[1] + "&age=" + result[2]);
         mProgressBar.setVisibility(View.VISIBLE);
     }
-    private void openWebView(String url, String name){
+
+    private void openWebView(String url, String name) {
         Intent intentWV = new Intent(AnimalActivity.this, WebViewActivity.class);
         intentWV.putExtra("URL", url);
         intentWV.putExtra("Title", name);
@@ -121,17 +124,21 @@ public class AnimalActivity extends AppCompatActivity {
     public void getData(String url) {
         try {
             String json = Jsoup.connect(url).ignoreContentType(true).execute().body();
-            String output = json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1);
-            Log.e(TAG, " json output : " + output);
-            JSONArray array = new JSONArray(json);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject jsonObject = array.getJSONObject(i);
-                String name = jsonObject.getString("name");
-                String pic = jsonObject.getString("pic");
-                String tid = jsonObject.getString("tid");
-                String acceptnum = jsonObject.getString("acceptnum");
-                String webid = jsonObject.getString("id");
-                mGridData.add(new Animals(name, pic, tid, acceptnum, webid));
+            if (json.indexOf("{")!=-1) {
+                String output = json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1);
+                Log.e(TAG, " json output : " + output);
+                JSONArray array = new JSONArray(json);
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObject = array.getJSONObject(i);
+                    String name = jsonObject.getString("name");
+                    String pic = jsonObject.getString("pic");
+                    String tid = jsonObject.getString("tid");
+                    String acceptnum = jsonObject.getString("acceptnum");
+                    String webid = jsonObject.getString("id");
+                    mGridData.add(new Animals(name, pic, tid, acceptnum, webid));
+                }
+            }else{
+                mGridData.add(new Animals("此頁面沒有搜尋到寵物資訊", "無", "無", "無", "無"));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -144,11 +151,13 @@ public class AnimalActivity extends AppCompatActivity {
         Intent i = getIntent();
         result[0] = i.getStringExtra("type");
         result[1] = i.getStringExtra("sex");
+        result[2] = i.getStringExtra("age");
         return result;
     }
 
     public void goToHome() {
         Intent i = new Intent(AnimalActivity.this, MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
     }
 }

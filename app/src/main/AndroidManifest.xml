@@ -36,6 +36,9 @@
         <activity android:name=".WebViewActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">.
         </activity>
+        <activity android:name=".YearsActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">.
+        </activity>
         <service
             android:name=".MyFirebaseMessagingService">
             <intent-filter>

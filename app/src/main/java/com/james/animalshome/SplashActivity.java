@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.widget.ImageView;
 
 public class SplashActivity extends Activity {
-    private static int SPLASH_TIME_OUT = 4000; //開啟畫面時間(3秒)
+    private static int SPLASH_TIME_OUT = 4000; //開啟畫面時間(4秒)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

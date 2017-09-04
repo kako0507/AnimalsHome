@@ -76,14 +76,18 @@ public class ImageAdapterGridView extends ArrayAdapter<Animals> {
         }
         Animals animals = mGridData.get(position);
         if(animals.getName().equals("")){
-            holder.textView.setText("無名");
+            holder.textView.setText("無");
         }else{
             holder.textView.setText(animals.getName());
         }
+        if(animals.getPic().toString().equals("無")){
+            holder.imageView.setImageResource(R.drawable.ic_error_outline_white_24dp);
+        }else{
+            Picasso.with(mContext)
+                    .load("http://163.29.36.110/uploads/images/medium/" + animals.getPic())
+                    .into(holder.imageView);
+        }
 
-        Picasso.with(mContext)
-                .load("http://163.29.36.110/uploads/images/medium/" + animals.getPic())
-                .into(holder.imageView);
         return row;
     }
 

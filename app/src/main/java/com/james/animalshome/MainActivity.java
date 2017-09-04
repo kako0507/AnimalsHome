@@ -1,7 +1,10 @@
 package com.james.animalshome;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,12 +31,19 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private DatabaseReference ref;
     String count;
+    TinyDB tinydb;
+    String alreadyGj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        tinydb = new TinyDB(MainActivity.this);
+        alreadyGj = tinydb.getString("GJ");
+        if(alreadyGj.equals("")){
+            alreadyGj="true";
+        }
         new AppUpdater(this)
                 .setUpdateFrom(UpdateFrom.GOOGLE_PLAY)
                 .setDisplay(Display.DIALOG)
@@ -65,7 +75,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public void onBackPressed() {
+        if(alreadyGj.toString().equals("true")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("◎ 給個 5 星好評\n◎ 一同支持領養代替購買\n◎ 可回饋問題讓我們知道")
+                    .setTitle("感恩您的使用")
+                    .setCancelable(false)
+                    .setPositiveButton("讚", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intentDL = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.james.animalshome"));
+                            startActivity(intentDL);
+                        }
+                    })
+                    .setNegativeButton("已經讚囉", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            MainActivity.this.finish();
+                        }
+                    })
+                    .setNeutralButton("不再提示", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            tinydb.putString("GJ", "false");
+                            MainActivity.this.finish();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }else{
+            MainActivity.this.finish();
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -103,11 +142,11 @@ public class MainActivity extends AppCompatActivity {
     public void startActivity(String type) {
         Intent i = new Intent(MainActivity.this, GenderActivity.class);
         if (type.equals("dog")) {
-            i.putExtra("Type", "1");
+            i.putExtra("type", "1");
         } else if (type.equals("cat")) {
-            i.putExtra("Type", "2");
+            i.putExtra("type", "2");
         } else {
-            i.putExtra("Type", "3");
+            i.putExtra("type", "3");
         }
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);

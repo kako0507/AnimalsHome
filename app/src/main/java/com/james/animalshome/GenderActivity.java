@@ -62,7 +62,7 @@ public class GenderActivity extends AppCompatActivity {
 
     public void startActivity(String type) {
 
-        Intent i = new Intent(GenderActivity.this, AnimalActivity.class);
+        Intent i = new Intent(GenderActivity.this, YearsActivity.class);
         i.putExtra("type", result);
         if (type.equals("man")) {
             i.putExtra("sex", "1");
@@ -81,7 +81,7 @@ public class GenderActivity extends AppCompatActivity {
 
     public String getActivityValue() {
         Intent i = getIntent();
-        String result = i.getStringExtra("Type");
+        String result = i.getStringExtra("type");
         return result;
     }
 
