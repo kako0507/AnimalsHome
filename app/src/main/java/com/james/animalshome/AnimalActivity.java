@@ -90,7 +90,9 @@ public class AnimalActivity extends AppCompatActivity {
     private void openWebView(String url, String name) {
         Intent intentWV = new Intent(AnimalActivity.this, WebViewActivity.class);
         intentWV.putExtra("URL", url);
-        intentWV.putExtra("Title", name);
+        intentWV.putExtra("name", animals.getName());
+        intentWV.putExtra("acceptnum", animals.getAcceptnum());
+        intentWV.putExtra("type", result[0]);
         startActivity(intentWV);
         overridePendingTransition(R.anim.slide_in_left_1, R.anim.slide_in_left_2);
     }

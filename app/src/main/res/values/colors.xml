@@ -5,5 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorMiWhite">#F7F3E3</color>
-    F7F3E3
+    <color name="red_overlay">#9D8B7B</color>
+    <color name="gray_overlay">#585B63</color>
+    <color name="red_overlay_pressed">#4F463E</color>
 </resources>

@@ -1,7 +1,9 @@
 package com.james.animalshome;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ZoomButtonsController;
 
 import com.google.android.gms.ads.AdRequest;
@@ -22,8 +25,10 @@ import java.util.Hashtable;
 public class WebViewActivity extends Activity {
     private static final String TAG = WebViewActivity.class.getSimpleName();
     WebView webView;
-    String webViewUrl;
+    String webViewUrl, webName, webAcceptnum, webType;
     WebSettings webSettings;
+    String mailUrl = "tcapoa8@mail.taipei.gov.tw";
+    String vDirectionUrl;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -35,12 +40,48 @@ public class WebViewActivity extends Activity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
+
+        Bundle extras = getIntent().getExtras();
+        webViewUrl = extras.getString("URL");
+        webName = extras.getString("name");
+        webAcceptnum = extras.getString("acceptnum");
+        webType = extras.getString("type");
+
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("F618803C89E1614E3394A55D5E7A756B").build(); //Nexus 5
         mAdView.loadAd(adRequest);
-        Bundle extras = getIntent().getExtras();
-        int title = extras.getInt("Title");
-        webViewUrl = extras.getString("URL");
+        Button goabout = (Button) findViewById(R.id.btnRight);
+        goabout.setText("寵物所在地");
+        Button gologout = (Button) findViewById(R.id.btnLeft);
+        gologout.setText("我要認養");
+        gologout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setData(Uri.parse("mailto:" + mailUrl));
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailUrl});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "我想要認養(" + webName + " " + webAcceptnum+")");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "您的真實姓名:\n連絡電話:\n常用Email:\n我想認養:\n認養原因:\n居住城市:\n我的家庭成員:\n家中是否有其他寵物:\n請簡單自我介紹:\n");
+                startActivity(Intent.createChooser(emailIntent, "請選擇應用程式"));
+            }
+        });
+        goabout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(webType.equals("1")){
+                    vDirectionUrl = "https://maps.google.com/maps?q=台北市動物之家";
+                }else if(webType.equals("2")){
+                    vDirectionUrl = "https://maps.google.com/maps?q=台北市動物之家";
+                }else if(webType.equals("3")){
+                    vDirectionUrl = "https://maps.google.com/maps?q=愛兔協會";
+                }
+
+                Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse(vDirectionUrl) );
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
+            }
+        });
         webView = (WebView) findViewById(R.id.webview);
         webSettings = webView.getSettings();
         webSettings.setUseWideViewPort(true);
@@ -85,6 +126,7 @@ public class WebViewActivity extends Activity {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_right_1, R.anim.slide_in_right_2);
     }
+
     public void setZoomControlGone(View view) {
         Class classType;
         Field field;
