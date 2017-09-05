@@ -57,13 +57,13 @@ public class WebViewActivity extends Activity {
         gologout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.setData(Uri.parse("mailto:" + mailUrl));
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
                 emailIntent.setType("text/plain");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailUrl});
+                emailIntent.setData(Uri.parse("mailto:" + mailUrl));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "我想要認養(" + webName + " " + webAcceptnum+")");
                 emailIntent.putExtra(Intent.EXTRA_TEXT, "您的真實姓名:\n連絡電話:\n常用Email:\n我想認養:\n認養原因:\n居住城市:\n我的家庭成員:\n家中是否有其他寵物:\n請簡單自我介紹:\n");
-                startActivity(Intent.createChooser(emailIntent, "請選擇應用程式"));
+                emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(emailIntent);
             }
         });
         goabout.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +76,6 @@ public class WebViewActivity extends Activity {
                 }else if(webType.equals("3")){
                     vDirectionUrl = "https://maps.google.com/maps?q=愛兔協會";
                 }
-
                 Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse(vDirectionUrl) );
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                 startActivity(intent);
