@@ -83,7 +83,12 @@ public class AnimalActivity extends AppCompatActivity {
                 //Toast.makeText(AnimalActivity.this, animals.getTid()+" . " + animals.getWebId(), Toast.LENGTH_SHORT).show();
             }
         });
-        new AsyncHttpTask().execute(ANIMAL_URL + result[0] + "&sex=" + result[1] + "&age=" + result[2]);
+        if(result[1].equals("na")){
+            new AsyncHttpTask().execute(ANIMAL_URL + result[0]  + "&age=" + result[2]);
+        }else{
+            new AsyncHttpTask().execute(ANIMAL_URL + result[0] + "&sex=" + result[1] + "&age=" + result[2]);
+        }
+
         mProgressBar.setVisibility(View.VISIBLE);
     }
 

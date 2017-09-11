@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -66,6 +66,36 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:text="找女生"
+                android:textColor="@color/colorWhite"
+                android:textSize="45dp" />
+        </FrameLayout >
+        <View
+            android:id="@+id/horizontal_separater1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="1dp"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#C2C2C2"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgMix"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/mix" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:text="不分性別"
                 android:textColor="@color/colorWhite"
                 android:textSize="45dp" />
         </FrameLayout >
