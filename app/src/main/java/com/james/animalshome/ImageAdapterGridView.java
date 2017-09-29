@@ -80,8 +80,10 @@ public class ImageAdapterGridView extends ArrayAdapter<Animals> {
         }else{
             holder.textView.setText(animals.getName());
         }
-        if(animals.getPic().toString().equals("無")){
-            holder.imageView.setImageResource(R.drawable.ic_error_outline_white_24dp);
+        if(animals.getPic().toString().equals("無") ||animals.getPic().toString().equals("") ){
+            Picasso.with(mContext)
+                    .load(R.mipmap.no_image_text)
+                    .into(holder.imageView);
         }else{
             Picasso.with(mContext)
                     .load("http://163.29.36.110/uploads/images/medium/" + animals.getPic())
