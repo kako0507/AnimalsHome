@@ -29,6 +29,4 @@
         ads:adUnitId="@string/banner_ad_unit_id"
         app:layout_constraintRight_toRightOf="parent">
     </com.google.android.gms.ads.AdView>
-
-
 </LinearLayout>

@@ -3,6 +3,8 @@ package com.james.animalshome;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.enums.Display;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         tinydb = new TinyDB(MainActivity.this);
         alreadyGj = tinydb.getString("GJ");
+        ckInstall();
         if(alreadyGj.equals("")){
             alreadyGj="true";
         }
@@ -144,6 +148,34 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+    public void ckInstall(){
+        PackageInfo packageInfo;
+        String packagename = "com.james.animalsallhome";
+        try {
+            packageInfo = this.getPackageManager().getPackageInfo(packagename, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            packageInfo = null;
+            e.printStackTrace();
+        }
+        if(packageInfo ==null){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("◎ 全國版本上架囉! \n\n◎ 一同支持領養代替購買")
+                    .setTitle("【全國】浪浪需要家-下載")
+                    .setCancelable(true)
+                    .setPositiveButton("愛心下載", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intentDL = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.james.animalsallhome"));
+                            startActivity(intentDL);
+                        }
+                    })
+                    .setNeutralButton("下次再說", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     public void startActivity(String type) {

@@ -89,7 +89,6 @@ public class ImageAdapterGridView extends ArrayAdapter<Animals> {
                     .load("http://163.29.36.110/uploads/images/medium/" + animals.getPic())
                     .into(holder.imageView);
         }
-
         return row;
     }
 
